@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:ispeak/practice_page.dart' as practice_page;
 
 class DashBoardPage extends StatelessWidget {
-  const DashBoardPage({super.key});
+  final VoidCallback? onStartPractice;
+
+  const DashBoardPage({super.key, this.onStartPractice});
 
   @override
   Widget build(BuildContext context) {
@@ -11,47 +14,56 @@ class DashBoardPage extends StatelessWidget {
           children: [
             _header(),
             _statsCard(),
-            _quickStart(),
-            _recentActivity(),
+            const SizedBox(height: 16),
+            _startPracticeButton(context),
+            const SizedBox(height: 20),
+            _recentSessions(),
+            const SizedBox(height: 88), 
           ],
         ),
       ),
     );
   }
 
+ 
   Widget _header() {
     return Container(
-      padding: const EdgeInsets.fromLTRB(20, 30, 20, 24),
+      height: 160,
       width: double.infinity,
+      padding: const EdgeInsets.fromLTRB(20, 28, 20, 20),
       decoration: const BoxDecoration(
-        color: Color(0xFF1E63F2),
+        color: Color(0xFF3F7CF4),
+        borderRadius: BorderRadius.zero,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           const Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Hello, John!',
+                'iSpeak',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 5),
+              SizedBox(height: 6),
               Text(
-                'Ready to practice today?',
+                'Improve your public speaking',
                 style: TextStyle(
                   color: Colors.white70,
+                  fontSize: 13,
                 ),
               ),
             ],
           ),
           const CircleAvatar(
-            backgroundColor: Colors.white24,
-            child: Icon(Icons.notifications, color: Colors.white),
+            radius: 20,
+            backgroundColor: Colors.white,
+            child: Icon(Icons.person, color: Color(0xFF3F7CF4)),
           ),
         ],
       ),
@@ -60,13 +72,13 @@ class DashBoardPage extends StatelessWidget {
 
   Widget _statsCard() {
     return Transform.translate(
-      offset: const Offset(0, -25),
+      offset: const Offset(0, -28),
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 20),
-        padding: const EdgeInsets.symmetric(vertical: 20),
+        padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 12),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(16),
           boxShadow: const [
             BoxShadow(
               color: Colors.black12,
@@ -74,152 +86,128 @@ class DashBoardPage extends StatelessWidget {
             ),
           ],
         ),
-        child: Row(
+        child: const Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: const [
-            _StatItem(
-              value: '15',
-              label: 'Sessions',
-              color: Colors.blue,
-            ),
+          children: [
+            _StatItem(value: '3', label: 'Sessions'),
             _VerticalDivider(),
-            _StatItem(
-              value: '82',
-              label: 'Avg Score',
-              color: Colors.green,
-            ),
+            _StatItem(value: '82', label: 'Avg Score'),
             _VerticalDivider(),
-            _StatItem(
-              value: '5',
-              label: 'Achievements',
-              color: Colors.purple,
-            ),
+            _StatItem(value: '3', label: 'Days Active'),
           ],
         ),
       ),
     );
   }
 
-  Widget _quickStart() {
+  Widget _startPracticeButton(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'Quick Start',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+      child: InkWell(
+            onTap: () {
+          if (onStartPractice != null) {
+            onStartPractice!();
+          } else {
+            Navigator.of(context).push(MaterialPageRoute(builder: practice_page.practicePageBuilder));
+          }
+        },
+        borderRadius: BorderRadius.circular(16),
+        child: Container(
+          width: double.infinity,
+          padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+          decoration: BoxDecoration(
+            color: const Color(0xFF3F7CF4),
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: const [
+              BoxShadow(color: Colors.black12, blurRadius: 8, offset: Offset(0, 4)),
+            ],
           ),
-          const SizedBox(height: 15),
-          Row(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              _quickCard(
-                icon: Icons.mic,
-                title: 'Start Practice',
-                subtitle: 'Free speaking',
-                color: Colors.blueAccent,
+              const CircleAvatar(
+                radius: 20,
+                backgroundColor: Colors.white,
+                child: Icon(Icons.mic, color: Color(0xFF3F7CF4)),
               ),
-              const SizedBox(width: 15),
-              _quickCard(
-                icon: Icons.flash_on,
-                title: 'Challenge',
-                subtitle: 'Timed tasks',
-                color: Colors.cyan,
+              const SizedBox(width: 12),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: const [
+                  Text(
+                    'Start Practice',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 2),
+                  Text(
+                    'English & Filipino supported',
+                    style: TextStyle(
+                      color: Colors.white70,
+                      fontSize: 12,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
-        ],
+        ),
       ),
     );
   }
 
-  Widget _recentActivity() {
+  Widget _recentSessions() {
     return Padding(
       padding: const EdgeInsets.all(20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text(
-                'Recent Activity',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              TextButton(
-                onPressed: () {},
-                child: const Text(
-                  'View All',
-                  style: TextStyle(color: Colors.blue, fontSize: 14),
-                ),
-              ),
-            ],
+        children: const [
+          Text(
+            'Recent Sessions',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-          const SizedBox(height: 10),
-          const _ActivityTile('Free Practice', '2 hours ago • 3:45', '85'),
-          const _ActivityTile('Challenge', 'Yesterday • 4:20', '78'),
-          const _ActivityTile('Free Practice', '3 days ago • 3:10', '82'),
+          SizedBox(height: 12),
+          _SessionCard(
+            date: 'Jan 28, 2026',
+            score: '85',
+            pace: '125 WPM',
+            clarity: '92%',
+            energy: '78%',
+          ),
+          _SessionCard(
+            date: 'Jan 27, 2026',
+            score: '78',
+            pace: '110 WPM',
+            clarity: '85%',
+            energy: '72%',
+          ),
+          _SessionCard(
+            date: 'Jan 25, 2026',
+            score: '82',
+            pace: '118 WPM',
+            clarity: '88%',
+            energy: '75%',
+          ),
         ],
-      ),
-    );
-  }
-
-  Widget _quickCard({
-    required IconData icon,
-    required String title,
-    required String subtitle,
-    required Color color,
-  }) {
-    return Expanded(
-      child: Container(
-        padding: const EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          color: color,
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.white,
-                  width: 2.5,
-                ),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Icon(icon, color: Colors.white, size: 28),
-            ),
-            const SizedBox(height: 20),
-            Text(
-              title,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            Text(
-              subtitle,
-              style: const TextStyle(color: Colors.white70),
-            ),
-          ],
-        ),
       ),
     );
   }
 }
 
+
 class _StatItem extends StatelessWidget {
   final String value;
   final String label;
-  final Color color;
 
   const _StatItem({
     required this.value,
     required this.label,
-    required this.color,
   });
 
   @override
@@ -228,10 +216,10 @@ class _StatItem extends StatelessWidget {
       children: [
         Text(
           value,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 22,
             fontWeight: FontWeight.bold,
-            color: color,
+            color: Color(0xFF3F7CF4),
           ),
         ),
         const SizedBox(height: 4),
@@ -260,49 +248,97 @@ class _VerticalDivider extends StatelessWidget {
   }
 }
 
-class _ActivityTile extends StatelessWidget {
-  final String title;
-  final String time;
+class _SessionCard extends StatelessWidget {
+  final String date;
   final String score;
+  final String pace;
+  final String clarity;
+  final String energy;
 
-  const _ActivityTile(this.title, this.time, this.score);
+  const _SessionCard({
+    required this.date,
+    required this.score,
+    required this.pace,
+    required this.clarity,
+    required this.energy,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 0,
-      margin: const EdgeInsets.symmetric(vertical: 6),
-      shape: RoundedRectangleBorder(
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
         borderRadius: BorderRadius.circular(12),
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.black12,
+            blurRadius: 8,
+          ),
+        ],
       ),
-      child: ListTile(
-        title: Text(
-          title,
-          style: const TextStyle(fontWeight: FontWeight.w600),
-        ),
-        subtitle: Text(time),
-        trailing: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              score,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.green,
-                fontSize: 20,
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                date,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w600,
+                ),
               ),
-            ),
-            const SizedBox(height: 2),
-            const Text(
-              'Score',
-              style: TextStyle(
-                fontSize: 12,
-                color: Colors.grey,
+              Text(
+                score,
+                style: const TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF3F7CF4),
+                ),
               ),
-            ),
-          ],
-        ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              _Metric(label: 'Pace', value: pace),
+              _Metric(label: 'Clarity', value: clarity),
+              _Metric(label: 'Energy', value: energy),
+            ],
+          ),
+        ],
       ),
+    );
+  }
+}
+
+class _Metric extends StatelessWidget {
+  final String label;
+  final String value;
+
+  const _Metric({required this.label, required this.value});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(
+          value,
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(height: 2),
+        Text(
+          label,
+          style: const TextStyle(
+            fontSize: 12,
+            color: Colors.grey,
+          ),
+        ),
+      ],
     );
   }
 }
