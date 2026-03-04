@@ -30,6 +30,7 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   int _currentIndex = 0;
+  int _progressPageVersion = 0;
 
   Widget _buildPage() {
     switch (_currentIndex) {
@@ -43,7 +44,7 @@ class _MainPageState extends State<MainPage> {
           onFinish: () => setState(() => _currentIndex = 3),
         );
       case 2:
-        return const ProgressPage();
+        return ProgressPage(key: ValueKey(_progressPageVersion));
       case 3:
         return ResultPage(
           onBackToHome: () => setState(() => _currentIndex = 0),
@@ -122,7 +123,10 @@ class _MainPageState extends State<MainPage> {
                     const SizedBox(width: 80),
                     // Progress
                     InkWell(
-                      onTap: () => setState(() => _currentIndex = 2),
+                      onTap: () => setState(() {
+                        _currentIndex = 2;
+                        _progressPageVersion++;
+                      }),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.center,
