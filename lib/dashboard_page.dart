@@ -171,7 +171,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
     );
   }
 
-  // NOW TAKES context AND NAVIGATES DIRECTLY — no callback needed
+  
   Widget _learningResourcesButton(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
