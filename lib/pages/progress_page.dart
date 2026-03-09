@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 
 class ProgressPage extends StatefulWidget {
@@ -12,12 +11,12 @@ class _ProgressPageState extends State<ProgressPage> {
   bool _isEnglishSelected = true;
   bool _isBarChart = true;
 
-  // ── Metric toggles for line chart ────────────────────────────
+  // Metric toggles for line chart 
   bool _showPace = true;
   bool _showClarity = true;
   bool _showEnergy = true;
 
-  // ── Selected day for line chart tooltip ───────────────────────
+  // Selected day for line chart tooltip 
   int? _tooltipDayIndex;
 
   final _englishOverall = 87;
@@ -37,7 +36,7 @@ class _ProgressPageState extends State<ProgressPage> {
   List<double?> _dailyScores = [88.0, 85.0, 90.0, 87.0, 86.0, null, null];
   final List<String> _dayLabels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
-  // ── Per-metric daily scores (null = no session) ───────────────
+  // ── Per-metric daily scores 
   List<double?> _paceScores    = [85.0, 82.0, 88.0, 80.0, 84.0, null, null];
   List<double?> _clarityScores = [90.0, 88.0, 93.0, 91.0, 89.0, null, null];
   List<double?> _energyScores  = [80.0, 83.0, 87.0, 85.0, 82.0, null, null];
@@ -46,16 +45,7 @@ class _ProgressPageState extends State<ProgressPage> {
   static const Color _clarityColor = Color(0xFF4CAF50);
   static const Color _energyColor  = Color(0xFFF5A623);
 
-  void _randomizeScores() {
-    final random = Random();
-    setState(() {
-      _dailyScores   = List.generate(7, (i) => random.nextBool() ? random.nextDouble() * 40 + 60 : null);
-      _paceScores    = List.generate(7, (i) => random.nextBool() ? random.nextDouble() * 40 + 60 : null);
-      _clarityScores = List.generate(7, (i) => random.nextBool() ? random.nextDouble() * 40 + 60 : null);
-      _energyScores  = List.generate(7, (i) => random.nextBool() ? random.nextDouble() * 40 + 60 : null);
-      _tooltipDayIndex = null;
-    });
-  }
+
 
   Color _barColor(double score) {
     if (score >= 85) return const Color(0xFF4CAF50);
@@ -74,10 +64,7 @@ class _ProgressPageState extends State<ProgressPage> {
 
     return Scaffold(
       backgroundColor: const Color(0xFFF8F9FB),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _randomizeScores,
-        child: const Icon(Icons.refresh),
-      ),
+
       body: GestureDetector(
         onTap: () => setState(() => _tooltipDayIndex = null),
         child: Center(
@@ -88,7 +75,7 @@ class _ProgressPageState extends State<ProgressPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // ── Header ──────────────────────────────────────────
+                  // Header 
                   Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
@@ -126,7 +113,7 @@ class _ProgressPageState extends State<ProgressPage> {
                   _buildWeeklySummary(accentColor),
                   const SizedBox(height: 20),
 
-                  // ── Performance Trends ───────────────────────────────
+                  // Performance Trends
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Container(
@@ -156,7 +143,7 @@ class _ProgressPageState extends State<ProgressPage> {
                   _buildDailyChart(accentColor),
                   const SizedBox(height: 20),
 
-                  // ── Session History ──────────────────────────────────
+                  // Session History 
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Column(
@@ -390,7 +377,7 @@ class _ProgressPageState extends State<ProgressPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // ── Title + Bar/Line Toggle ──────────────────────────
+            // ── Title + Bar/Line Toggle 
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -424,7 +411,7 @@ class _ProgressPageState extends State<ProgressPage> {
               ],
             ),
 
-            // ── Metric filter chips (line chart only) ────────────
+            // Metric filter chips (line chart only) 
             if (!_isBarChart) ...[
               const SizedBox(height: 16),
               Row(
@@ -443,7 +430,7 @@ class _ProgressPageState extends State<ProgressPage> {
 
             const SizedBox(height: 24),
 
-            // ── Chart Area ───────────────────────────────────────
+            // Chart Area 
             SizedBox(
               height: 180,
               child: _isBarChart ? _buildBarChart() : _buildLineChart(),
@@ -451,7 +438,7 @@ class _ProgressPageState extends State<ProgressPage> {
 
             const SizedBox(height: 24),
 
-            // ── Legend — label switches based on chart type ───────
+            // Legend — label switches based on chart type 
             Text(
               _isBarChart ? 'Performance Rating' : 'Metrics',
               style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
@@ -483,7 +470,7 @@ class _ProgressPageState extends State<ProgressPage> {
     );
   }
 
-  // ── Pill-shaped metric toggle chip ───────────────────────────────────────────
+  // Pill-shaped metric toggle chip 
   Widget _metricChip(String label, bool active, Color color, VoidCallback onTap) {
     return GestureDetector(
       onTap: onTap,
@@ -700,7 +687,7 @@ class _ProgressPageState extends State<ProgressPage> {
                       );
                     }),
 
-                    // ── Invisible tap columns + combined tooltip ──────
+                    // Invisible tap columns + combined tooltip 
                     ...List.generate(7, (i) {
                       final x = i * segmentWidth;
                       final isSelected = _tooltipDayIndex == i;
@@ -975,7 +962,7 @@ class _ProgressPageState extends State<ProgressPage> {
   }
 }
 
-// ── Tooltip entry model ───────────────────────────────────────────────────────
+// Tooltip entry model
 class _TooltipEntry {
   final String label;
   final Color color;
@@ -983,7 +970,7 @@ class _TooltipEntry {
   const _TooltipEntry(this.label, this.color, this.score);
 }
 
-// ── Data model for a metric series ───────────────────────────────────────────
+// Data model for a metric series 
 class _MetricSeries {
   final String label;
   final List<double?> scores;
@@ -991,7 +978,7 @@ class _MetricSeries {
   const _MetricSeries(this.label, this.scores, this.color);
 }
 
-// ── Custom painter for line chart ─────────────────────────────────────────────
+// Custom painter for line chart 
 class _MultiLinePainter extends CustomPainter {
   final List<Offset> points;
   final Color color;
