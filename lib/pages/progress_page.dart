@@ -33,13 +33,13 @@ class _ProgressPageState extends State<ProgressPage> {
     {'label': 'Energy', 'score': 85, 'value': 0.85},
   ];
 
-  List<double?> _dailyScores = [88.0, 85.0, 90.0, 87.0, 86.0, null, null];
+  final List<double?> _dailyScores = [88.0, 85.0, 90.0, 87.0, 86.0, null, null];
   final List<String> _dayLabels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
   // ── Per-metric daily scores 
-  List<double?> _paceScores    = [85.0, 82.0, 88.0, 80.0, 84.0, null, null];
-  List<double?> _clarityScores = [90.0, 88.0, 93.0, 91.0, 89.0, null, null];
-  List<double?> _energyScores  = [80.0, 83.0, 87.0, 85.0, 82.0, null, null];
+  final List<double?> _paceScores    = [85.0, 82.0, 88.0, 80.0, 84.0, null, null];
+  final List<double?> _clarityScores = [90.0, 88.0, 93.0, 91.0, 89.0, null, null];
+  final List<double?> _energyScores  = [80.0, 83.0, 87.0, 85.0, 82.0, null, null];
 
   static const Color _paceColor    = Color(0xFF3F7CF4);
   static const Color _clarityColor = Color(0xFF4CAF50);
